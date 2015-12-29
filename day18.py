@@ -101,15 +101,15 @@ input_str = '''#...##......#......##.##..#...##......##.#.#.###.#.#..#..#......#
 #..#.#..#...###.#..##.#...#...##.#......#...#..#..####..##.....#.###...#.#..#.#....#.#####.##.###...
 ###....#.#..#.#..###..#.##......#...#..#..##.#..###..##..#..#.####..#...########..##.#.##.#.#.#...#.
 .#.#.##.##.###..#...#.#....#..#.##..#.#.#.#.##.##.#####...#........####..###..####.#####..#.##.#.##.'''
-input_str = """.#.#.#
-...##.
-#....#
-..#...
-#.#..#
-####.."""
+#input_str = """.#.#.#
+#...##.
+##....#
+#..#...
+##.#..#
+#####.."""
 
 lights = [[{"cur": False, "next":False} for x in range(100)] for x in range(100)]
-lights = [[{"cur": False, "next":False} for x in range(6)] for x in range(6)]
+#lights = [[{"cur": False, "next":False} for x in range(6)] for x in range(6)]
 
 def reset():
   for col in lights:
@@ -118,7 +118,7 @@ def reset():
 
 def tick():
   max_index = 99
-  max_index = 5
+  #max_index = 5
   col_num = 0
   for col in lights:
     row_num = 0
@@ -137,13 +137,14 @@ def tick():
       if col_num < max_index:
         col_end += 1
 
+      debug_count = 0
       for y in range(row_start, row_end):
         for x in range(col_start, col_end):
           if lights[x][y]["cur"]:
             count += 1
 
       new_state = False
-      if lights[col_num][row_num]["cur"]:
+      if not lights[col_num][row_num]["cur"]:
         if count == 3:
           new_state = True
       else:
@@ -155,6 +156,30 @@ def tick():
       row_num += 1
     col_num += 1
 
+def turn_corners_on():
+  lights[0][0]["next"] = True
+  lights[0][99]["next"] = True
+  lights[99][0]["next"] = True
+  lights[99][99]["next"] = True
+
+def get_count():
+  count = 0
+  for col in lights:
+    for row in col:
+      if row["cur"]:
+        count += 1
+  return count
+
+def print_lights():
+  for col in lights:
+    st = ""
+    for row in col:
+      if row["cur"]:
+        st += "#"
+      else:
+        st += "."
+    print st
+
 initial_lights = input_str.splitlines()
 col = 0
 for light_strip in initial_lights:
@@ -164,19 +189,20 @@ for light_strip in initial_lights:
     if c == "#":
       setting = True
     lights[col][pos]["cur"] = setting
+    lights[col][pos]["next"] = setting
     pos += 1
   col += 1
 
-for x in range(1):
+turn_corners_on()
+reset()
+
+for x in range(100):
   tick()
+  turn_corners_on()
   reset()
 
-count = 0
-for col in lights:
-  for row in col:
-    if row["cur"]:
-      count += 1
-print count
+
+print get_count()
 
 
 
