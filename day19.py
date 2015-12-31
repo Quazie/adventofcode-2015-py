@@ -88,7 +88,7 @@ for rule in rules:
     indexes = list(find_all(input_str2, rule))
     for index in indexes:
        answers_pt1.add(input_str2[:index] + replace + input_str2[index + len(rule):])
-print len(answers_pt1)
+#print len(answers_pt1)
 
 for x in range(1000):
   cur_str = input_str2
@@ -115,7 +115,7 @@ for x in range(1000):
     cur_str = new_str
 
   if cur_str is "e":
-    print"{0} {1}: This took {2} attempts".format(count, cur_str, x+1)
+    print"Got to {1} in {0} moves: This took {2} attempts".format(count, cur_str, x+1)
     break
 
 
