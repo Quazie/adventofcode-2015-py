@@ -115,7 +115,7 @@ for x in range(1000):
     cur_str = new_str
 
   if cur_str is "e":
-    print"{0} {1}".format(count, cur_str)
+    print"{0} {1}: This took {2} attempts".format(count, cur_str, x+1)
     break
 
 
